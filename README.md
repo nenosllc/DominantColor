@@ -2,6 +2,8 @@
 
 Finding the dominant colors of an image using the CIE LAB color space and the k-means clustering algorithm.
 
+**This fork fully supports Swift Concurrency.**
+
 ### Algorithm
 
 #### Color Space
@@ -44,12 +46,6 @@ The project includes Mac and iOS apps that can be used to see the results of the
 
 ![Mac app](mac.png)
 ![iOS app](ios.png)
-
-### Contact
-
-* Indragie Karunaratne
-* [@indragie](http://twitter.com/indragie)
-* [http://indragie.com](http://indragie.com)
 
 ### License
 

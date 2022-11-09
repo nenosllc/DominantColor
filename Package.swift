@@ -1,19 +1,13 @@
-// swift-tools-version:5.0
-
-/**
- *  DominantColor
- *  Copyright (c) Indragie Karunaratne 2021
- *  See LICENSE file.
- */
+// swift-tools-version: 5.6
 
 import PackageDescription
 
 let package = Package(
     name: "DominantColor",
     platforms: [
-       .macOS(.v10_13),
-       .iOS(.v11),
-       .tvOS(.v11)
+       .macOS(.v12),
+       .iOS(.v14),
+       .tvOS(.v14)
     ],
     products: [
         .library(name: "DominantColor", targets: ["DominantColor"]),
@@ -24,5 +18,12 @@ let package = Package(
             name: "DominantColor",
             path: "DominantColor/Shared"
         ),
+        .testTarget(
+            name: "DominantColorTests",
+            dependencies: ["DominantColor"],
+            resources: [
+                .copy("Resources/testimage.jpg")
+            ]
+        )
     ]
 )

@@ -27,28 +27,36 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func runBenchmarkTapped(_ sender: AnyObject) {
-        if let image = image {
-            let nValues: [Int] = [100, 1000, 2000, 5000, 10000]
-            let CGImage = image.cgImage
-            for n in nValues {
-                let ns = dispatch_benchmark(5) {
-                    _ = dominantColorsInImage(CGImage!, maxSampledPixels: n)
-                    return
-                }
-                print("n = \(n) averaged \(ns/1000000) ms")
-            }
-        }
+//        if let image = image {
+//            let nValues: [Int] = [100, 1000, 2000, 5000, 10000]
+//            let underlyingImage = image.cgImage
+//            for n in nValues {
+//                let ns = dispatch_benchmark(5) {
+//                    under
+//                    _ = dominantColorsInImage(CGImage!, maxSampledPixels: n)
+//                    return
+//                }
+//                print("n = \(n) averaged \(ns/1000000) ms")
+//            }
+//        }
     }
     
     // MARK: ImagePicker Delegate
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-        if let image: UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage? {
-            self.image = image
-            imageView.image = image
-            
-            let colors = image.dominantColors()
+        defer {
+            picker.dismiss(animated: true, completion: nil)
+        }
+        
+        guard let image: UIImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage? else {
+            return
+        }
+        
+        self.image = image
+        imageView.image = image
+        
+        Task {
+            let colors = await image.dominantColors()
             for box in boxes {
                 box.backgroundColor = UIColor.clear
             }
@@ -56,8 +64,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 boxes[i].backgroundColor = colors[i]
             }
         }
-        picker.dismiss(animated: true, completion: nil)
-
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
